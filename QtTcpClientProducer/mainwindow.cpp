@@ -7,6 +7,7 @@ MainWindow::MainWindow(QWidget *parent) :
   ui->setupUi(this);
   socket = new QTcpSocket(this);
 
+  //seta os signals e slots
   connect(ui->pushButtonConnect,
           SIGNAL(clicked(bool)),
           this,
@@ -47,6 +48,7 @@ MainWindow::MainWindow(QWidget *parent) :
   max = 10;
 }
 
+//connecta com o servidor
 void MainWindow::tcpConnect(){
   socket->connectToHost(endereco_ip,1234);
   if(socket->waitForConnected(3000)){
@@ -57,6 +59,7 @@ void MainWindow::tcpConnect(){
   }
 }
 
+//evento para ficar enviando os dados ao servidor
 void MainWindow::timerEvent(QTimerEvent *event)
 {
     putData();
@@ -82,6 +85,7 @@ void MainWindow::putData(){
   }
 }
 
+//disconnecta do servidor
 void MainWindow::tcpDisconnect()
 {
     socket->disconnectFromHost();
@@ -93,11 +97,13 @@ void MainWindow::tcpDisconnect()
     }
 }
 
+//muda o endereço de ip, por padrão é o localhost 127.0.0.1
 void MainWindow::mudarIP(QString _ip)
 {
     endereco_ip = QString (_ip);
 }
 
+//seta a faixa minima
 void MainWindow::setMin(int _min)
 {
     if(max <= _min){
@@ -106,6 +112,7 @@ void MainWindow::setMin(int _min)
     min = _min;
 }
 
+//maximo
 void MainWindow::setMax(int _max)
 {
     if(min >= _max){
@@ -114,6 +121,7 @@ void MainWindow::setMax(int _max)
     max = _max;
 }
 
+//inicia o contador dos numeros aleatorios
 void MainWindow::initTimer()
 {
     if(timers.size()==0){
@@ -125,6 +133,7 @@ void MainWindow::initTimer()
     }
 }
 
+//destroi o timer
 void MainWindow::destroyTimer()
 {
     killTimer(timers[0]);

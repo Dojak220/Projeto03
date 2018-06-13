@@ -1,0 +1,75 @@
+\section{My\+Thread Class Reference}
+\label{class_my_thread}\index{My\+Thread@{My\+Thread}}
+
+
+The \doxyref{My\+Thread}{p.}{class_my_thread} class cria uma thread que lida com o tratamento de uma conexao T\+CP de entrada.  
+
+
+
+
+{\ttfamily \#include $<$mythread.\+h$>$}
+
+Inheritance diagram for My\+Thread\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_my_thread}
+\end{center}
+\end{figure}
+\subsection*{Public Slots}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\label{class_my_thread_a277618fdd448b927f2e250c2076fc176}} 
+void {\bfseries ready\+Read} ()
+\item 
+\mbox{\label{class_my_thread_a447710039787ae20134a9b572487840f}} 
+void {\bfseries disconnected} ()
+\end{DoxyCompactItemize}
+\subsection*{Signals}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\label{class_my_thread_aebf11d93838f22c9547d0c6aa97002be}} 
+void {\bfseries error} (Q\+Tcp\+Socket\+::\+Socket\+Error socketerror)
+\item 
+\mbox{\label{class_my_thread_ae49528d4ec1b2208240f707f5aa74adf}} 
+void {\bfseries message} (Q\+String)
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\textbf{ My\+Thread} (int ID, Q\+Object $\ast$parent, \textbf{ Data\+Storage} $\ast$storage)
+\begin{DoxyCompactList}\small\item\em \doxyref{My\+Thread}{p.}{class_my_thread} eh o construtor da classe. \end{DoxyCompactList}\item 
+\mbox{\label{class_my_thread_a48f2e366e852087c53705f64e1ee65c2}} 
+void {\bfseries run} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The \doxyref{My\+Thread}{p.}{class_my_thread} class cria uma thread que lida com o tratamento de uma conexao T\+CP de entrada. 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\label{class_my_thread_ac1b04b0fa6b32038e810c7105ef762f6}} 
+\index{My\+Thread@{My\+Thread}!My\+Thread@{My\+Thread}}
+\index{My\+Thread@{My\+Thread}!My\+Thread@{My\+Thread}}
+\subsubsection{My\+Thread()}
+{\footnotesize\ttfamily My\+Thread\+::\+My\+Thread (\begin{DoxyParamCaption}\item[{int}]{ID,  }\item[{Q\+Object $\ast$}]{parent,  }\item[{\textbf{ Data\+Storage} $\ast$}]{storage }\end{DoxyParamCaption})}
+
+
+
+\doxyref{My\+Thread}{p.}{class_my_thread} eh o construtor da classe. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ID} & eh o identificador da thread \\
+\hline
+{\em parent} & \\
+\hline
+{\em storage} & \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/\+Dorgival/\+Desktop/\+Projeto03/\+Qt\+Tcp\+Server/mythread.\+h\item 
+C\+:/\+Users/\+Dorgival/\+Desktop/\+Projeto03/build-\/\+Qt\+Server\+Multithread-\/\+Desktop\+\_\+\+Qt\+\_\+5\+\_\+11\+\_\+0\+\_\+\+G\+C\+C\+\_\+64bit-\/\+Debug/moc\+\_\+mythread.\+cpp\item 
+C\+:/\+Users/\+Dorgival/\+Desktop/\+Projeto03/\+Qt\+Tcp\+Server/mythread.\+cpp\end{DoxyCompactItemize}
