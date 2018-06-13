@@ -14,7 +14,7 @@
 #include <QtWidgets/QLCDNumber>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
-#include <QtWidgets/QListView>
+#include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
@@ -30,7 +30,6 @@ class Ui_MainWindow
 public:
     QWidget *centralWidget;
     QLabel *label;
-    QListView *listView;
     QPushButton *pushButtonConnect;
     QSlider *horizontalSliderTimings;
     QSlider *horizontalSliderMin;
@@ -44,6 +43,7 @@ public:
     QSlider *horizontalSliderMax;
     QLCDNumber *lcdNumberMax;
     QPushButton *pushButtonDisconnect;
+    QListWidget *listWidget;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
     QStatusBar *statusBar;
@@ -58,9 +58,6 @@ public:
         label = new QLabel(centralWidget);
         label->setObjectName(QStringLiteral("label"));
         label->setGeometry(QRect(230, 210, 16, 17));
-        listView = new QListView(centralWidget);
-        listView->setObjectName(QStringLiteral("listView"));
-        listView->setGeometry(QRect(267, 9, 243, 246));
         pushButtonConnect = new QPushButton(centralWidget);
         pushButtonConnect->setObjectName(QStringLiteral("pushButtonConnect"));
         pushButtonConnect->setGeometry(QRect(9, 38, 121, 22));
@@ -103,10 +100,13 @@ public:
         pushButtonDisconnect = new QPushButton(centralWidget);
         pushButtonDisconnect->setObjectName(QStringLiteral("pushButtonDisconnect"));
         pushButtonDisconnect->setGeometry(QRect(136, 38, 111, 22));
+        listWidget = new QListWidget(centralWidget);
+        listWidget->setObjectName(QStringLiteral("listWidget"));
+        listWidget->setGeometry(QRect(270, 0, 256, 261));
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 531, 22));
+        menuBar->setGeometry(QRect(0, 0, 531, 20));
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));

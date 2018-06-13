@@ -27,16 +27,6 @@
      <string>1</string>
     </property>
    </widget>
-   <widget class="QListView" name="listView">
-    <property name="geometry">
-     <rect>
-      <x>267</x>
-      <y>9</y>
-      <width>243</width>
-      <height>246</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QPushButton" name="pushButtonConnect">
     <property name="geometry">
      <rect>
@@ -197,6 +187,16 @@
      <string>Disconnect</string>
     </property>
    </widget>
+   <widget class="QListWidget" name="listWidget">
+    <property name="geometry">
+     <rect>
+      <x>270</x>
+      <y>0</y>
+      <width>256</width>
+      <height>261</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -204,7 +204,7 @@
      <x>0</x>
      <y>0</y>
      <width>531</width>
-     <height>22</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>

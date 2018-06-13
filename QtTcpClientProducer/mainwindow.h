@@ -20,9 +20,10 @@ class MainWindow : public QMainWindow
 public:
   explicit MainWindow(QWidget *parent = 0);
   ~MainWindow();
+  void timerEvent(QTimerEvent *event);
   
-  void tcpConnect();
 public slots:
+  void tcpConnect();
   void putData();
   void tcpDisconnect();
   void mudarIP(QString _ip);
