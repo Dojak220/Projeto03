@@ -21,7 +21,7 @@ class MainWindow;
 class MainWindow : public QMainWindow
 {
   Q_OBJECT
-    /**
+   /**
    * @brief min é o valor mínimo a ser gerado no
    * produtor.
    * @brief max min é o valor máximo a ser

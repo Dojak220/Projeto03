@@ -73,7 +73,7 @@ void MainWindow::putData(){
   if(socket->state()== QAbstractSocket::ConnectedState){
 
     msecdate = QDateTime::currentDateTime().toMSecsSinceEpoch();
-    str = "set "+ QString::number(msecdate) + " " + QString::number(qrand()%35)+"\r\n";
+    str = "set " + QString::number(msecdate) + " " + QString::number(qrand()%35)+"\r\n";
     QStringList list(str);
     ui->listWidget->addItems(list);
     ui->listWidget->scrollToBottom();
