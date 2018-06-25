@@ -1,7 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include <QDateTime>
-#include <QListWidgetItem>
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
@@ -26,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent) :
   connect(ui->pushButtonUpdate,
           SIGNAL(clicked(bool)),
           this,
-          SLOT(tcpConnect()));
+          SLOT(updateIP()));
   connect(ui->pushButtonStart,
           SIGNAL(clicked(bool)),
           this,
@@ -39,11 +37,10 @@ MainWindow::MainWindow(QWidget *parent) :
           SIGNAL(valueChanged(int)),
           this,
           SLOT(setTimer(int)));
-  //Ainda incorreto
   connect(ui->listViewIP,
-          SIGNAL(),
+          SIGNAL(itemDoubleClicked(QListWidgetItem*)),
           this,
-          SLOT(setIP(QString)));
+          SLOT(updateIP(QListWidgetItem*)));
 
   endereco_ip = "127.0.0.1";
   timer = 1;
@@ -107,19 +104,16 @@ void MainWindow::tcpDisconnect()
 }
 
 //muda o endereço de ip, por padrão é o localhost 127.0.0.1
-void MainWindow::setIP(QString _ip)
-{
+void MainWindow::setIP(QString _ip){
     endereco_ip = QString (_ip);
 }
 
-//Ainda incorreto
-void MainWindow::updateIP(QString _ip){
-    endereco_ip = QString (_ip)//Endereço selecionado na lista de endereços
+void MainWindow::updateIP(QListWidgetItem* item){
+    ui->setIP->setText(item->text());
 }
 
 //inicia o contador dos numeros aleatorios
-void MainWindow::initTimer()
-{
+void MainWindow::initTimer(){
     if(timers.size()==0){
         timers.push_back(startTimer(1000*timer));
     }
@@ -130,22 +124,19 @@ void MainWindow::initTimer()
 }
 
 //destroi o timer
-void MainWindow::destroyTimer()
-{
+void MainWindow::destroyTimer(){
     killTimer(timers[0]);
     timers.clear();
 }
 
-void MainWindow::setTimer(int _t)
-{
+void MainWindow::setTimer(int _t){
     timer = _t;
     if(timers.size()){
         initTimer();
     }
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow(){
   delete socket;
   delete ui;
 }

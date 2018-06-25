@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QTcpSocket>
 #include <QDebug>
+#include <QListWidget>
+#include <QDateTime>
 
 namespace Ui {
 class MainWindow;
@@ -19,6 +21,10 @@ class MainWindow : public QMainWindow
     */
    int timer;
    /**
+    * @brief timers
+    */
+   std::vector <int>timers;
+   /**
     * @brief endereco_ip
     */
    QString endereco_ip;
@@ -31,13 +37,15 @@ public:
 public slots:
   void tcpConnect();
 
-  void tcpDisconnect();
+  void timerEvent(QTimerEvent *event);
 
   void getData();
 
-  void mudarIP(QString _ip);
+  void tcpDisconnect();
 
-  void updateIP();
+  void setIP(QString _ip);
+
+  void updateIP(QListWidgetItem *item);
 
   void initTimer();
 
