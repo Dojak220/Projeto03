@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include <QDateTime>
+#include "plotter.h"
 
 MainWindow::MainWindow(QWidget *parent) :
   QMainWindow(parent),
@@ -59,35 +61,57 @@ void MainWindow::tcpConnect(){
 
 //evento para ficar recebendo os dados do servidor
 void MainWindow::timerEvent(QTimerEvent *event){
-    getData();
+    MainWindow::getData();
 }
 
 void MainWindow::getData(){
-  QString str;
-  QByteArray array;
-  QStringList list;
-  qint64 thetime;
-  qDebug() << "to get data...";
-  if(socket->state() == QAbstractSocket::ConnectedState){
-    if(socket->isOpen()){
-      qDebug() << "reading...";
-      socket->write("get 127.0.0.1 5\r\n");
-      socket->waitForBytesWritten();
-      socket->waitForReadyRead();
-      qDebug() << socket->bytesAvailable();
-      while(socket->bytesAvailable()){
-        str = socket->readLine().replace("\n","").replace("\r","");
-        list = str.split(" ");
-        if(list.size() == 2){
-          bool ok;
-          str = list.at(0);
-          thetime = str.toLongLong(&ok);
-          str = list.at(1);
-          qDebug() << thetime << ": " << str;
+    QString str , get;
+    QByteArray array;
+    QStringList list;
+
+    qint64 thetime;
+    std::vector<qint64> timeList;
+    std::vector<int> valueList;
+
+    int nAmostras = 30;
+
+    get = "get " + ui->setIP->text() + " " + QString::number( nAmostras)  + "\r\n";
+    qDebug() << get;
+    qDebug() << "to get data...";
+    if(socket->state() == QAbstractSocket::ConnectedState){
+        if(socket->isOpen()){
+            qDebug() << "reading...";
+            socket->write( get.toStdString().c_str() );
+            socket->waitForBytesWritten();
+            socket->waitForReadyRead();
+            //      qDebug() << socket->bytesAvailable();
+            while(socket->bytesAvailable()){
+                str = socket->readLine().replace("\n","").replace("\r","");
+                list = str.split(" ");
+                if(list.size() == 2){
+                    bool ok;
+                    str = list.at(0);
+                    thetime = str.toLongLong(&ok);
+                    str = list.at(1);
+                    //qDebug()  << "theTime: "<< thetime << ": " << str;
+                    // qDebug() << "int valor: ";
+                    // qDebug() << str.toInt();
+                    timeList.push_back(thetime);
+                    valueList.push_back(str.toInt() );
+                    if(timeList.size() >= 30 && valueList.size() >= 30){
+                        //  qDebug() << "time size: " << timeList.size() << "value size: " << valueList.size();
+                        ui->widgetGrafico->draw(timeList,valueList);
+                        timeList.clear();
+                        valueList.clear();
+
+                    }
+
+                    //  qDebug() << timeList.size();
+                }
+
+            }
         }
-      }
     }
-  }
 }
 
 
@@ -109,7 +133,27 @@ void MainWindow::setIP(QString _ip){
 }
 
 void MainWindow::updateIP(QListWidgetItem* item){
-    ui->setIP->setText(item->text());
+    QString str, list;
+
+    list = "list\r\n";
+
+    ui->listViewIP->clear();
+
+    if(socket->state() == QAbstractSocket::ConnectedState){
+        if(socket->isOpen()){
+
+            socket->write(list.toStdString().c_str());
+            socket->waitForBytesWritten();
+            socket->waitForReadyRead();
+            qDebug() << socket->bytesAvailable();
+            while(socket->bytesAvailable()){
+                str = socket->readLine().replace("\n","").replace("\r","");
+                qDebug() << str;
+                ui->listViewIP->addItem(str);
+
+            }
+        }
+    }
 }
 
 //inicia o contador dos numeros aleatorios

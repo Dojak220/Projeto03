@@ -1,132 +1,136 @@
 #include "plotter.h"
 #include <QPainter>
-#include <QBrush>
 #include <QPen>
-#include <QColor>
-#include <QMouseEvent>
+#include <QBrush>
 #include <QDebug>
+#include <cmath>
+#define e 2.718281828459045235360287
+
 
 Plotter::Plotter(QWidget *parent) : QWidget(parent)
-{
-  //amplitude = 100;
-  //frequencia = 1;
-  //angulo = 0;
-  //velocidade = 0;
-  startTimer(20);
-  setMouseTracking(true);
-  r=255;
-  g=255;
-  b=100;
-}
-
-void Plotter::timerEvent(QTimerEvent *event)
-{
-  //angulo += velocidade;
-  repaint();
-}
-
-/*void Plotter::mousePressEvent(QMouseEvent *event)
-{
-  int x, y;
-  x = event->x();
-  y = event->y();
-  emit mudaX(x);
-  emit mudaY(y);
-
-  //  qDebug() << "x = " << x << "; y = " << y;
-}
-
-void Plotter::mouseMoveEvent(QMouseEvent *event)
-{
-  int x, y;
-  x = event->x();
-  y = event->y();
-  emit mudaX(x);
-  emit mudaY(y);
-}
-*/
-void Plotter::setRGB(int _r, int _g, int _b)
-{
-  r=_r; g=_g; b=_b;
-  repaint();
+{ qDebug() << "oi";
+    x1 =0;
+    deltaX = 0;
+    firstPrint = true;
 }
 
 void Plotter::paintEvent(QPaintEvent *event){
-  QPainter painter(this);
-  QBrush brush;
-  QPen pen;
-
-  // habilita o anti aliasing (atenua o
-  // efeito de serrilhado nas figuras geometricas)
-  painter.setRenderHint(QPainter::Antialiasing);
-
-  // brush com a cor amarela com preenchimento
-  // solido
-  brush.setColor(QColor(r,g,b));
-  brush.setStyle(Qt::SolidPattern);
-  // informa ao painter qual o pincel atual
-  painter.setBrush(brush);
-
-  // pen com cor vermelha e dois pixels de largura
-  pen.setColor(QColor(255,0,0));
-  pen.setWidth(2);
-
-  // informa ao painter qual o pen atual
-  painter.setPen(pen);
-
-  // desenha um retangulo tomando toda a area
-  // do componente
-  painter.drawRect(0,0,width(), height());
-
-  // muda o estilo do tracejado
-  pen.setStyle(Qt::DashLine);
-  pen.setWidth(1);
-  // comunica ao painter a nova caneta
-  painter.setPen(pen);
-
-  // desenha o eixo x
-  painter.drawLine(0,height(),width(),height());
-
-  // desenha o seno com cor azul
-  pen.setColor(QColor(0,0,255));
-  pen.setStyle(Qt::SolidLine);
-  painter.setPen(pen);
+    qDebug() << "event" ;
+    QPainter painter(this);
+    QBrush brush;
+    QPen pen;
 
 
-  int x1, y1, x2, y2;
+    brush.setColor(QColor(255,255,255));
+    brush.setStyle(Qt::SolidPattern);
+    pen.setColor(QColor(211,211,211));
+    pen.setWidth(2);
+    painter.setBrush(brush);
+    painter.setPen(pen);
+    painter.drawRect(0,0,width(),height());
 
-  x1 = 0;
-  /*
-  y1 = height()/2 -
-      height()/2*sin(2*PI*x1*frequencia
-                     + angulo)*
-      amplitude/100.0;
 
-  for(int i=1; i<width(); i++){
-    x2 = i;
-    y2 = height()/2 -
-        height()/2*sin(2*PI*frequencia*x2/width()
-                       + angulo)*
-        amplitude/100.0;
-    painter.drawLine(x1,y1,x2,y2);
-    x1 = x2;
-    y1 = y2;
-  }*/
+    pen.setColor(QColor(211,211,211));
+    pen.setStyle(Qt::SolidLine);
+    pen.setWidth(1);
+    painter.setPen(pen);
+
+    for(int i=0; i<width(); i= i+20){
+        painter.drawLine(i,0,i,height());
+    }
+
+    for(int i=0; i<height(); i= i+20){
+        painter.drawLine(0,i,width(),i);
+    }
+
+    /*
+     * esse grafico mostra variação de tempo me microsegundos por valor aleatório.
+     * como é variação de tempo, então obviamente o primeiro valor é menor valor
+     * e ultimo valor ou timeList[29] é maior valor, para exibir o grafico ocupando
+     * o todo o "x" do gráfico, foi feito uma proporção simples ou "regra de 3", onde
+     *  timeList[29]---- 1
+     *  timeList[i] ---- x
+     *  x = timeList[i]/timeList[29]
+     *
+     *  então a parametrização final fica:
+     *  x_i  =  ( (t_i - t0)/1000 )/ (tf- t0)/1000
+     *  y_i  =   1/ (1 + (e/3.5)^v_i) )
+     * onde  t é a data em msec e  v_i um valor aleatório desconhecido que pode variar  entre 0 a 10
+     */
+
+
+    pen.setColor(QColor(0,0,255));
+    pen.setWidth(2);
+    pen.setStyle(Qt::SolidLine);
+    painter.setPen(pen);
+
+
+    double x2,y1,y2;
+    if (firstPrint){
+        x1 =0;
+        y1 = height();
+    }else{
+        qDebug() << "x1: " <<  (timeList[0]/timeList[29])*width();
+
+        x1  = (timeList[0]/timeList[29])*width() ;
+        y1 = height() - valueList[0];
+    }
+
+    int size = timeList.size();
+
+    qDebug() << size;
+    for(int i=1; i< size  ; i++){
+
+        x2=  (timeList[i]/timeList[29])*width()  ;
+        y2= height() - valueList[i];
+        //  qDebug() << "timeList: " << timeList[i] << " valueList: " << valueList[i];
+        painter.drawLine(x1,y1,x2,y2);
+        //painter.drawPoint(x1,y1);
+        //painter.drawLine(0,0,300,300);
+        x1 = x2;
+        y1 = y2;
+        qDebug() <<  "X: " << x1 << " Y1: " << y1;
+
+    }
+
+
+    timeList.clear();
+    valueList.clear();
+
+
+
 
 }
 
-/*
-void Plotter::mudaAmplitude(int _amplitude){
-  amplitude = _amplitude;
-  repaint();
-}
+void Plotter::draw( std::vector<qint64> _timeList, std::vector<int>_valueList){
+    double normTimeList [30];
 
-void Plotter::mudaFrequencia(int _frequencia){
-  frequencia = _frequencia;
-  repaint();
-}
+    qDebug() << "draw Time: : " << _timeList[0] << " draw Value: " << _valueList[0];
+    double x = _timeList[0];
+    if(x1 + _timeList[0]*20 >= width() ){
+        firstPrint = true;
+        x1 = 0;
+    }
 
-void Plotter::mudaVelocidade(int _velocidade)
-{
-  velocidade = _velocidade/100.0*0.5;
+
+    if (firstPrint)
+        deltaX = _timeList[0]; // pega o primeiro tempo , descidir lidar do variação de tempo
+
+
+
+    for(int i =0 ; i <30 ; i++){
+        double x = _timeList[i];
+        //   qDebug() << "x: " << ( x- deltaX )/1000 ; // 1 milliseconds/1000 = 1 microsec
+
+        timeList.push_back( (x -deltaX )/1000 );
+        // 1/ (1 + (e/3.5)^x)) adaptação feita para variar melhor entre 0 e 10, deixando o menor valor de  y = 0.5
+        //   qDebug() << " função: " << (1 / (1 +  std::pow(e/3.5,_valueList[i] )  ) ) * height() ;
+        // qDebug() << "altura: " << height();
+        valueList.push_back((1 / (1 +  std::pow(e/3.5,_valueList[i] )  ) ) * height() );
+    }
+    firstPrint = false;
+
+
+    repaint();
+
 }

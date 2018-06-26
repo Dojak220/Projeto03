@@ -2,31 +2,26 @@
 #define PLOTTER_H
 
 #include <QWidget>
-
+#include <QDateTime>
+#include <vector>
 class Plotter : public QWidget
 {
-  Q_OBJECT
+    Q_OBJECT
 private:
-  int r, g, b;
+    std::vector< double >timeList;
+    std::vector< double >valueList;
+    double deltaX;
+    double x1;
+    bool firstPrint;
+
 public:
-  explicit Plotter(QWidget *parent = nullptr);
-  void paintEvent(QPaintEvent *event);
-//void setCorDeFundo(int r, int g, int b);
-  void timerEvent(QTimerEvent *event);
-//void mousePressEvent(QMouseEvent *event);
-//void mouseMoveEvent(QMouseEvent *event);
-  void setRGB(int _r, int _g, int _b);
+    //!Construtor da classe
+    explicit Plotter(QWidget *parent = nullptr);
+    void paintEvent(QPaintEvent *event);
+    void draw(  std::vector<qint64 > _timeList, std::vector<int>_valueList);
 signals:
-//int mudaX(int);
-//int mudaY(int);
+
 public slots:
-//void mudaAmplitude(int _amplitude);
-//void mudaFrequencia(int _frequencia);
-//void mudaVelocidade(int _velocidade);
 };
 
 #endif // PLOTTER_H
-
-
-
-
