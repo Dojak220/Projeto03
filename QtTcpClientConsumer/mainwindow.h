@@ -67,7 +67,7 @@ public slots:
    * @brief updateIP
    * @param item
    */
-  void updateIP(QListWidgetItem *item);
+  void updateIP();
   /**
    * @brief initTimer
    */

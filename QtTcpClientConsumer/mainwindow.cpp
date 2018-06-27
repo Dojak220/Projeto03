@@ -39,10 +39,10 @@ MainWindow::MainWindow(QWidget *parent) :
           SIGNAL(valueChanged(int)),
           this,
           SLOT(setTimer(int)));
-  connect(ui->listViewIP,
+  /*connect(ui->listViewIP,
           SIGNAL(itemDoubleClicked(QListWidgetItem*)),
           this,
-          SLOT(updateIP(QListWidgetItem*)));
+          SLOT(updateIP(QListWidgetItem*)));*/
 
   endereco_ip = "127.0.0.1";
   timer = 1;
@@ -132,7 +132,7 @@ void MainWindow::setIP(QString _ip){
     endereco_ip = QString (_ip);
 }
 
-void MainWindow::updateIP(QListWidgetItem* item){
+void MainWindow::updateIP(/*QListWidgetItem* item*/){
     QString str, list;
 
     list = "list\r\n";
@@ -142,12 +142,12 @@ void MainWindow::updateIP(QListWidgetItem* item){
     if(socket->state() == QAbstractSocket::ConnectedState){
         if(socket->isOpen()){
 
-            socket->write(list.toStdString().c_str());
+            socket->write("list");
             socket->waitForBytesWritten();
             socket->waitForReadyRead();
-            qDebug() << socket->bytesAvailable();
+            /*qDebug() << */socket->bytesAvailable();
             while(socket->bytesAvailable()){
-                str = socket->readLine().replace("\n","").replace("\r","");
+                str = socket->readLine();
                 qDebug() << str;
                 ui->listViewIP->addItem(str);
 
